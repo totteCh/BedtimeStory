@@ -92,3 +92,30 @@ float selectedCircleRGB[] = {
 }
 
 %end
+
+
+
+
+@interface PlayerViewController: UIViewController
+- (void)sleepTimerBubble:(id)arg1 didSelectSleepTime:(int)arg2;
+- (void)sleepTimer:(id)arg1;
+@end
+
+%hook PlayerViewController
+
+- (void)toolBarButtonPushed:(UIControl *)toolBarButton {
+	if (toolBarButton.tag == 28) {
+		// bookmark button, show jump back UI
+		SleepTimerBubbleExpander *sleepExpander;
+		object_getInstanceVariable(self, "sleepExpander", (void**)&sleepExpander);
+		[self sleepTimerBubble:sleepExpander didSelectSleepTime:15*60];
+
+		NSTimer *sleepTimer;
+		object_getInstanceVariable(self, "sleepTimer", (void**)&sleepTimer);
+		[self sleepTimer:sleepTimer];
+	} else {
+		%orig;
+	}
+}
+
+%end

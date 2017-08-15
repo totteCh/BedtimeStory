@@ -1,0 +1,9 @@
+Package: net.tottech.bedtimestory
+Name: BedtimeStory
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: Use Storytel at night without getting flashed
+Maintainer: Christoffer Henriksson
+Author: Christoffer Henriksson
+Section: Tweaks

@@ -76,3 +76,19 @@ float selectedCircleRGB[] = {
 }
 
 %end
+
+
+
+
+@interface LoadView: UIView
+@end
+
+%hook LoadView
+
+- (id)initWithFrame:(struct CGRect)arg1 {
+	LoadView *_self = %orig;
+	_self.backgroundColor = [UIColor blackColor];
+	return _self;
+}
+
+%end

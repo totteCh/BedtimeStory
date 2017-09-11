@@ -96,6 +96,21 @@ float selectedCircleRGB[] = {
 
 
 
+@interface RootViewController: UIViewController
+- (void)hideMenu:(id)arg1;
+@end
+
+%hook RootViewController
+
+- (void)viewDidAppear:(_Bool)arg1 {
+	%orig;
+	[self hideMenu:nil];
+}
+
+%end
+
+
+
 @interface PlayerViewController: UIViewController
 - (void)sleepTimerBubble:(id)arg1 didSelectSleepTime:(int)arg2;
 - (void)sleepTimer:(id)arg1;

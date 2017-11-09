@@ -1,3 +1,8 @@
+#define brightColor [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.85]
+#define darkColor   [UIColor blackColor]
+
+
+
 @interface RoundTriangle: UIView
 @property (retain, nonatomic) UIColor *fillColor;
 @end
@@ -27,18 +32,18 @@
 %new
 - (void)setDarkUI {
 	RoundTriangle *triangle = MSHookIvar<RoundTriangle *>(self, "_triangle");
-	triangle.fillColor = [UIColor blackColor];
+	triangle.fillColor = darkColor;
 
 	UIView *contentView = self.subviews[0];
-	contentView.backgroundColor = [UIColor blackColor];
+	contentView.backgroundColor = darkColor;
 
 	UIView *headerContainerView = contentView.subviews[0];
 	UILabel *headerLabel = (UILabel *)headerContainerView.subviews[0];
-	headerLabel.textColor = [UIColor whiteColor];
+	headerLabel.textColor = brightColor;
 
 	[self colorButtons];
 
-	[self._pickerView setValue:[UIColor whiteColor] forKey:@"textColor"];
+	[self._pickerView setValue:brightColor forKey:@"textColor"];
 }
 
 float selectedCircleRGB[] = {
@@ -60,12 +65,12 @@ float selectedCircleRGB[] = {
 			(int)(colors[1]*255) == selectedCircleRGB[1] &&
 			(int)(colors[2]*255) == selectedCircleRGB[2];
 		if (!isSelected) {
-			buttonContentView.layer.borderColor = [[UIColor whiteColor] CGColor];
+			buttonContentView.layer.borderColor = [brightColor CGColor];
 		}
 		UILabel *textLabel = (UILabel *)buttonContentView.subviews[0];
-		textLabel.textColor = [UIColor whiteColor];
+		textLabel.textColor = brightColor;
 		UILabel *minLabel = (UILabel *)presetButton.subviews[1];
-		minLabel.textColor = [UIColor whiteColor];
+		minLabel.textColor = brightColor;
 	}
 }
 
@@ -86,7 +91,7 @@ float selectedCircleRGB[] = {
 
 - (id)initWithFrame:(struct CGRect)arg1 {
 	LoadView *_self = %orig;
-	_self.backgroundColor = [UIColor blackColor];
+	_self.backgroundColor = darkColor;
 	return _self;
 }
 

@@ -436,3 +436,49 @@ float selectedCircleRGB[] = {
 }
 
 %end
+
+
+
+UIImage* colorizedImageWithColor(UIImage *image, UIColor *color) {
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGRect area = CGRectMake(0, 0, image.size.width, image.size.height);
+    CGContextScaleCTM(context, 1, -1);
+    CGContextTranslateCTM(context, 0, -area.size.height);
+    CGContextSaveGState(context);
+    CGContextClipToMask(context, area, image.CGImage);
+
+    [color set];
+    CGContextFillRect(context, area);
+
+    CGContextRestoreGState(context);
+    CGContextSetBlendMode(context, kCGBlendModeMultiply);
+    CGContextDrawImage(context, area, image.CGImage);
+    UIImage *colorizedImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+    return colorizedImage;
+}
+
+
+NSMutableDictionary *hasDarkenedBookCover = [NSMutableDictionary dictionary];
+
+@interface Book: NSObject
+@end
+
+%hook Book
+
+- (id)abookCover {
+	NSString *addressKey = self.description;
+	if (!hasDarkenedBookCover[addressKey]) {
+		UIImage *abookCover = MSHookIvar<UIImage *>(self, "abookCover");
+		if (abookCover) {
+			UIImage *darkenedCover = colorizedImageWithColor(abookCover, [UIColor grayColor]);
+			MSHookIvar<UIImage *>(self, "abookCover") = darkenedCover;
+			hasDarkenedBookCover[addressKey] = @1;
+		}
+	}
+	return %orig;
+}
+
+%end

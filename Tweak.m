@@ -26,8 +26,7 @@
 
 %new
 - (void)setDarkUI {
-	RoundTriangle *triangle;
-	object_getInstanceVariable(self, "_triangle", (void**)&triangle);
+	RoundTriangle *triangle = MSHookIvar<RoundTriangle *>(self, "_triangle");
 	triangle.fillColor = [UIColor blackColor];
 
 	UIView *contentView = self.subviews[0];
